@@ -47,12 +47,11 @@ export default {
         cancelButtonColor: "#d33",
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
-        this.isDelecting = true;
         if (result.isConfirmed) {
+          this.isDelecting = true;
+
           setTimeout(() => {
             this.$emit("delItem", currentIndex);
-            this.isDelecting = false;
-
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
