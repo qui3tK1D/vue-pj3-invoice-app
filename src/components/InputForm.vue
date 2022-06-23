@@ -23,13 +23,21 @@
             class="form-control"
             id="quantity"
             v-model.number="quantity"
+            min="1"
           />
         </div>
         <div class="col-md-3 align-self-end">
           <button
-            class="btn btn-primary d-flex gap-2 justify-content-center w-100"
+            class="btn btn-primary d-flex gap-2 justify-content-center align-items-center w-100"
           >
-            <i class="bi bi-plus-circle text-white"></i>Add Item
+            <div
+              v-if="isLoading"
+              class="spinner-grow spinner-grow-sm me-2 text-info"
+              role="status"
+            >
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <i v-else class="bi bi-plus-circle text-white"></i>Add Item
           </button>
         </div>
       </div>
@@ -63,17 +71,24 @@ export default {
           price: 30,
         },
       ],
-      quantity: 1,
+      quantity: Math.floor(Math.random() * 10),
       selectedItem: null,
+      isLoading: false,
     };
   },
   methods: {
     addItem() {
-      this.$emit(
-        "addList",
-        this.quantity,
-        this.items.find((cur) => cur.id === this.selectedItem)
-      );
+      this.isLoading = true;
+      setTimeout(() => {
+        this.$emit(
+          "addList",
+          this.quantity,
+          this.items.find((cur) => cur.id === this.selectedItem)
+        );
+        this.selectedItem = null;
+        this.quantity = Math.ceil(Math.random() * 10);
+        this.isLoading = false;
+      }, 500);
     },
   },
 };

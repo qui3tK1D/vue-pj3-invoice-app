@@ -11,23 +11,14 @@
         </tr>
       </thead>
       <tbody>
-        <tr
-          v-for="({ itemName, price, quantity, cost }, index) in lists"
+        <TableRow
+          v-for="(list, index) in lists"
           :key="index"
+          :currentIndex="index"
+          :list="list"
           class="animate__animated animate__fadeIn"
-        >
-          <td>{{ index + 1 }}</td>
-          <td class="d-flex justify-content-between">
-            {{ itemName }}
-            <i
-              class="ms-2 bi bi-trash3 text-danger"
-              @click="delectItem(index)"
-            ></i>
-          </td>
-          <td class="text-end">{{ price }}</td>
-          <td class="text-end">{{ quantity }}</td>
-          <td class="text-end">{{ cost }}</td>
-        </tr>
+          @delItem="del"
+        />
 
         <tr>
           <td colspan="4" class="text-center">Total</td>
@@ -39,7 +30,12 @@
 </template>
 
 <script>
+import TableRow from "./TableRow.vue";
 export default {
+  components: {
+    TableRow,
+  },
+
   props: {
     lists: Object,
   },
@@ -51,14 +47,14 @@ export default {
   },
 
   methods: {
-    delectItem(i) {
+    del(i) {
       this.$emit("deleteList", i);
     },
   },
 };
 </script>
 
-<style scoped>
+<style>
 td i:hover {
   cursor: pointer !important;
 }
