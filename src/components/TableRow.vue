@@ -48,8 +48,11 @@ export default {
         confirmButtonText: "Yes, delete it!",
       }).then((result) => {
         this.isDelecting = true;
-        setTimeout(() => {
-          if (result.isConfirmed) {
+        if (result.isConfirmed) {
+          setTimeout(() => {
+            this.$emit("delItem", currentIndex);
+            this.isDelecting = false;
+
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
@@ -65,13 +68,10 @@ export default {
               icon: "success",
               title: "deleted successfully",
             });
-
-            this.$emit("delItem", currentIndex);
-            this.isDelecting = false;
-          } else {
-            this.isDelecting = false;
-          }
-        }, 500);
+          }, 500);
+        } else {
+          this.isDelecting = false;
+        }
       });
     },
   },
