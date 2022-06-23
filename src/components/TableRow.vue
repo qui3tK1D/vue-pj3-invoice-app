@@ -49,9 +49,9 @@ export default {
       }).then((result) => {
         if (result.isConfirmed) {
           this.isDelecting = true;
-
           setTimeout(() => {
             this.$emit("delItem", currentIndex);
+            this.isDelecting = false;
             const Toast = Swal.mixin({
               toast: true,
               position: "top-end",
@@ -68,8 +68,6 @@ export default {
               title: "deleted successfully",
             });
           }, 500);
-        } else {
-          this.isDelecting = false;
         }
       });
     },
